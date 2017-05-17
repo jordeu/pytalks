@@ -8,3 +8,7 @@ Usage example of cProfiler, line profiler and memory profiler to detect performa
 Talk about different solutions/problems to parallelize in python
 
 video: https://www.youtube.com/watch?v=RQc7KL-ne3A
+
+# License
+
+Licensed under [CC BY 4.0 Creative Commons](http://creativecommons.org/licenses/by/4.0/).
