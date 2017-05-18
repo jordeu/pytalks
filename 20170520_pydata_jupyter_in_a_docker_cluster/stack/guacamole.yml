@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+
+  guacd:
+    image: guacamole/guacd
+    networks:
+      - notebooks
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+
+  web:
+    image: guacamole/guacamole
+    environment:
+      - MYSQL_USER=guacadmin
+      - MYSQL_DATABASE=guacamole
+      - MYSQL_PASSWORD=S82XWgTASjKJpLx3
+      - MYSQL_HOSTNAME=mysql
+      - GUACD_HOSTNAME=guacd
+    networks:
+      - proxy
+      - notebooks
+    deploy:
+      replicas: 1
+      labels:
+        - com.df.notify=true
+        - com.df.distribute=true
+        - com.df.servicePath=/guacamole
+        - com.df.port=8080
+      placement:
+        constraints: [node.role == manager]
+
+  mysql:
+    image: mysql/mysql-server:5.7
+    volumes:
+      - ${REPO_HOME}/stack/guacamole.sql:/docker-entrypoint-initdb.d/initdb.sql 
+# 
+# To persist your data you must define a volume at /var/lib/mysql
+#
+#     - /docker/guacamole:/var/lib/mysql
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+    networks:
+      - notebooks
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+
+networks:
+  notebooks:
+    external: true
+  proxy:
+    external: true

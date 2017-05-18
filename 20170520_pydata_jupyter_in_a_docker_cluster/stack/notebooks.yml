@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  example:
+    image: localhost:5000/jupyteruser:5.0
+    networks:
+      - notebooks
+    volumes:
+      - ${REPO_HOME}:/workspace
+    working_dir: /workspace
+    environment:
+      - CONDA_ENVS_PATH=${REPO_HOME}/envs    
+ 
+networks:
+  notebooks:
+    external: true   

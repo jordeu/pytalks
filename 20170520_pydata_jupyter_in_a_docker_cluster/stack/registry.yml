@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+
+  registry:
+    image: registry
+    ports:
+      - 5000:5000
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
